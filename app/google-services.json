@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1065520926699",
+    "project_id": "nichat-75bac",
+    "storage_bucket": "nichat-75bac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1065520926699:android:1e2d8838b5792d1ee053ae",
+        "android_client_info": {
+          "package_name": "com.example.socialmedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1065520926699-ug8ib9u0agpid5addms61857j5buojae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.socialmedia",
+            "certificate_hash": "4eac88e07c993dd7e19ccd076ed7414c67831e90"
+          }
+        },
+        {
+          "client_id": "1065520926699-8rpohgl2it41kg2hqrbjb3fdtv7ak280.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHh7_nTv8ghDq_s1uf5wmK0IC40L4lB-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1065520926699-8rpohgl2it41kg2hqrbjb3fdtv7ak280.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

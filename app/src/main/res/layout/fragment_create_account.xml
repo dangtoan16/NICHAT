@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".fragments.CreateAccountFragment">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:text="Create \nAccount"
+        android:textColor="@color/white"
+        android:layout_marginTop="78dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"/>
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true">
+        <EditText
+            android:id="@+id/nameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@drawable/text_box"
+            android:hint="Name"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
+        <EditText
+            android:id="@+id/emailET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@drawable/text_box"
+            android:hint="Email"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
+        <EditText
+            android:id="@+id/passwordET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@drawable/text_box"
+            android:hint="Password"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
+        <EditText
+            android:id="@+id/confirmPassET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:background="@drawable/text_box"
+            android:hint="Confirm Password"
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ll1"
+        android:visibility="gone"
+        android:layout_above="@+id/signUpBtn"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign up"
+        android:background="@drawable/btn_bg"
+        android:layout_marginStart="150dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="100dp"
+        android:textColor="@color/white"
+        android:layout_above="@+id/loginTV"
+        android:id="@+id/signUpBtn"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/loginTV"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26dp"
+        android:text="Back to,login"
+        android:textStyle="bold"
+        android:textColor="@color/white"/>
+
+
+</RelativeLayout>

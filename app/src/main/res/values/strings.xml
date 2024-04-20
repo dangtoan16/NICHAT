@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Social Media</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="default_web_client_id">1065520926699-8rpohgl2it41kg2hqrbjb3fdtv7ak280.apps.googleusercontent.com</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
+    <string name="posts">Posts</string>
+</resources>
