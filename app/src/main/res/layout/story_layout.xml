@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Name"
+        android:textStyle="bold"
         android:layout_below="@+id/imageView"/>
 
 

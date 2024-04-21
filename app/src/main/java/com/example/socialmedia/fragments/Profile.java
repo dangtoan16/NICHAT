@@ -25,7 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.socialmedia.MainActivity;
+import com.example.socialmedia.MenuProfileActivity;
 import com.example.socialmedia.R;
+import com.example.socialmedia.ReplaceActivity;
 import com.example.socialmedia.model.FollowModel;
 import com.example.socialmedia.model.PostImageModel;
 import com.example.socialmedia.model.Users;
@@ -57,7 +59,7 @@ public class Profile extends Fragment {
     private CircleImageView profileImage;
     private RecyclerView recyclerView;
     private FirebaseUser user;
-    private ImageButton editProfileBtn;
+    private ImageButton editProfileBtn, menuProfileBtn;
     int count;
     FirebaseFirestore db;
     ArrayList<Users> listFollowing;
@@ -116,6 +118,10 @@ public class Profile extends Fragment {
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .setAspectRatio(1, 1)
                 .start(getContext(), Profile.this));
+        menuProfileBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), MenuProfileActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void init(View view) {
@@ -135,6 +141,7 @@ public class Profile extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         listFollowing = new ArrayList<>();
         listFollower = new ArrayList<>();
+        menuProfileBtn= view.findViewById(R.id.menuBtn);
     }
 
     private void countFollow(Profile.onCountFollowCompleteListener listener) {

@@ -40,7 +40,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StoryAddActivity extends AppCompatActivity {
+public class StoryAddActivity extends ActiveActivity {
     private static final int SELECT_VIDEO = 101;
     VideoView videoView;
     ImageButton uploadButton;

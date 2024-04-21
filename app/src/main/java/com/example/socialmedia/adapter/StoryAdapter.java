@@ -3,6 +3,8 @@ package com.example.socialmedia.adapter;
 import static com.example.socialmedia.ViewStoryActivity.FILE_TYPE;
 import static com.example.socialmedia.ViewStoryActivity.VIDEO_URL_KEY;
 
+import static java.security.AccessController.getContext;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -25,13 +27,18 @@ import com.bumptech.glide.Glide;
 import com.example.socialmedia.R;
 import com.example.socialmedia.StoryAddActivity;
 import com.example.socialmedia.ViewStoryActivity;
+import com.example.socialmedia.model.CommentModel;
 import com.example.socialmedia.model.Story;
+import com.example.socialmedia.model.Users;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -70,7 +77,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoriesHolde
                     .into(holder.imageView);
             holder.imageView.setScaleX(0.5f);
             holder.imageView.setScaleY(0.5f);
-            holder.textView.setVisibility(View.GONE);
+            holder.nameTv.setVisibility(View.GONE);
             holder.cancelBtn.setVisibility(View.GONE);
             holder.imageView.setOnClickListener(v ->
                     activity.startActivity(new Intent(activity, StoryAddActivity.class)));
@@ -122,6 +129,21 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoriesHolde
             });
 
         }
+        if (position>0) {
+            FirebaseFirestore.getInstance().collection("Users").document(list.get(position).getUser().getId()).get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Users users = task.getResult().toObject(Users.class);
+
+                            holder.nameTv.setText(users.getName());
+
+                        } else {
+                            Log.e("my_app_home", "Error getting documents: " + task.getException());
+                        }
+                    });
+        }
+
+
         if (list.get(position).getUser() != null && user.getUid().equals(list.get(position).getUser().getId())) {
             holder.cancelBtn.setVisibility(View.VISIBLE);
         } else {
@@ -140,6 +162,7 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoriesHolde
                     public void onClick(DialogInterface dialog, int which) {
                         deleteStory(position);
                     }
+
                 });
 
                 builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
@@ -153,36 +176,16 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoriesHolde
                 dialog.show();
             }
         });
-
-
-
-
-
     }
+
     private void deleteStory(int position) {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference storyRef = db.collection("Stories").document(list.get(position).getId());
+        storyRef.delete();
 
-        storyRef.delete()
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(activity, "Story deleted", Toast.LENGTH_SHORT).show();
-                        if (position >= 1 && position < list.size()) {
-                            list.remove(position);
-                        } else {
-                            Log.e("StoryAdapter", "Invalid position: " + position);
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(activity, "Delete failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
     }
+
 
     @Override
     public int getItemCount() {
@@ -193,15 +196,16 @@ public class StoryAdapter extends RecyclerView.Adapter<StoryAdapter.StoriesHolde
 
         private CircleImageView imageView;
         private ImageButton cancelBtn;
-        private TextView textView;
+        private TextView nameTv;
 
         public StoriesHolder(@NonNull View itemView) {
             super(itemView);
 
 
             imageView = (CircleImageView) itemView.findViewById(R.id.imageView);
-            textView= itemView.findViewById(R.id.nameTV);
+            nameTv= itemView.findViewById(R.id.nameTV);
             cancelBtn= itemView.findViewById(R.id.cancelBtn);
+
 
         }
     }

@@ -19,6 +19,9 @@
         android:theme="@style/Theme.SocialMedia"
         tools:targetApi="31">
         <activity
+            android:name=".MenuProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewStoryActivity"
             android:exported="false" />
         <activity

@@ -15,7 +15,7 @@ import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.PlayerView;
 
-public class ViewStoryActivity extends AppCompatActivity {
+public class ViewStoryActivity extends ActiveActivity {
 
     public static final String VIDEO_URL_KEY = "videoURL";
     public static final String FILE_TYPE = "file type";
@@ -59,6 +59,7 @@ public class ViewStoryActivity extends AppCompatActivity {
             player.setMediaItem(item);
 
             exoPlayer.setPlayer(player);
+            player.prepare();
             player.play();
         }
 

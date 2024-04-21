@@ -2,19 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#F1EAED"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
     tools:context=".fragments.CreateAccountFragment">
     <TextView
+        android:id="@+id/nichatTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:textStyle="bold"
-        android:textSize="30sp"
-        android:text="Login"
-        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:text="NICHAT"
+        android:textColor="@color/pupo"
         android:layout_marginTop="78dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"/>
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@+id/nichatTv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="70dp"
+        android:src="@drawable/nichatlogo" />
     <LinearLayout
         android:id="@+id/ll1"
         android:layout_width="match_parent"
@@ -24,33 +34,33 @@
 
         <EditText
             android:id="@+id/emailET"
+            android:layout_margin="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
-            android:background="@drawable/text_box"
+            android:background="@drawable/my_edit_text"
             android:hint="Email"
-            android:text="toan@gmail.com"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"/>
+            android:textSize="17sp"
+            android:text="toan@gmail.com" />
         <EditText
             android:id="@+id/passwordET"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="12dp"
+            android:layout_margin="20dp"
+            android:textSize="17sp"
             android:text="123456"
-            android:background="@drawable/text_box"
-            android:hint="Password"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"/>
+            android:background="@drawable/my_edit_text"
+            android:hint="Password" />
         <TextView
             android:id="@+id/forgotTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Forgot Password"
-            android:textColor="@color/white"
             android:textStyle="bold"
+            android:textSize="17sp"
             android:layout_gravity="end"
-            android:layout_marginEnd="17dp"
+            android:layout_marginEnd="25dp"
             android:layout_marginRight="16dp"/>
 
 
@@ -72,7 +82,7 @@
         android:layout_marginStart="120dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_bg"
+        android:background="@drawable/nichat_button"
         android:text="Login"
         android:textColor="@color/white" />
 
@@ -84,7 +94,7 @@
         android:layout_marginStart="120dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="40dp"
-        android:background="@drawable/btn_bg"
+        android:background="@drawable/nichat_button"
         android:text="Login with Google"
         android:textColor="@color/white" />
 
@@ -94,10 +104,10 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="40dp"
         android:text="Create Account, Sign Up"
-        android:textStyle="bold"
-        android:textColor="@color/white"/>
+        android:textSize="17sp"
+        android:textStyle="bold" />
 
 
 </RelativeLayout>
