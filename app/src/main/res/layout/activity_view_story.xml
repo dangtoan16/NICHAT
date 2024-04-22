@@ -17,19 +17,19 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/imageView"/>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/backBtn"
-        android:layout_alignParentLeft="true"
-        android:layout_centerInParent="true"
-        android:background="@drawable/ic_back"/>
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/ic_next"
-        android:id="@+id/nextBtn"
-        android:layout_centerInParent="true" />
+<!--    <ImageButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/backBtn"-->
+<!--        android:layout_alignParentLeft="true"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:background="@drawable/ic_back"/>-->
+<!--    <ImageButton-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentRight="true"-->
+<!--        android:background="@drawable/ic_next"-->
+<!--        android:id="@+id/nextBtn"-->
+<!--        android:layout_centerInParent="true" />-->
 
 </RelativeLayout>

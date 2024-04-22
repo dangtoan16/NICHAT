@@ -1,8 +1,11 @@
 package com.example.socialmedia;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -88,5 +91,4 @@ public class ViewStoryActivity extends ActiveActivity {
         imageView = findViewById(R.id.imageView);
 
     }
-
 }

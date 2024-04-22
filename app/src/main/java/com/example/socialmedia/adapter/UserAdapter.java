@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import org.checkerframework.checker.units.qual.N;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -29,6 +30,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
 
     public UserAdapter(List<Users> list) {
         this.list = list;
+    }
+    public void setList(ArrayList<Users> list) {
+        this.list= list;
     }
 
     @NonNull
@@ -69,6 +73,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserHolder> {
     public void OnUserClicked(OnUserClicked onUserClicked) {
         this.onUserClicked = onUserClicked;
     }
+
 
     public interface OnUserClicked {
         void onClicked(String uid);

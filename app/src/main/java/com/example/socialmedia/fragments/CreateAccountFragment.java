@@ -21,6 +21,7 @@ import com.example.socialmedia.MainActivity;
 import com.example.socialmedia.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,7 +36,8 @@ import java.util.Map;
 
 public class CreateAccountFragment extends Fragment {
 
-    private EditText nameEt, emailEt, passwordEt, confirmPasswordEt;
+    private EditText nameEt, emailEt;
+    private TextInputEditText passwordEt, confirmPasswordEt;;
     private ProgressBar progressBar;
     private TextView loginTV;
     private AppCompatButton signUpBtn;
@@ -144,7 +146,7 @@ public class CreateAccountFragment extends Fragment {
         map.put("name",name);
         map.put("online",true);
         map.put("isAdmin",false);
-        map.put("status","hận đời vô đối");
+        map.put("status","");
 
         FirebaseFirestore.getInstance().collection("Users").document(user.getUid())
                 .set(map)

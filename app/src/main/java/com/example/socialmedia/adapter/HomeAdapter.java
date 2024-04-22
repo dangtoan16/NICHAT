@@ -1,5 +1,6 @@
 package com.example.socialmedia.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
 import static androidx.core.content.res.TypedArrayUtils.getText;
 
 import android.app.Activity;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.socialmedia.OtherProfileActivity;
 import com.example.socialmedia.R;
 import com.example.socialmedia.ReplaceActivity;
 import com.example.socialmedia.model.CommentModel;
@@ -41,6 +43,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -117,6 +121,19 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
         likePostListener(currentPost, holder.likeCountTv);
         setUpPost(holder,position);
+        clickUserName(holder.userNameTv,list.get(position).getUserOwnerOfPost().getId());
+
+    }
+    public void clickUserName(TextView userNameTv,String otherUserId){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        userNameTv.setOnClickListener(v -> {
+            if (user.getUid().equals(otherUserId)){
+                return;
+            }
+                Intent i= new Intent(context, OtherProfileActivity.class);
+                i.putExtra("User need to find",otherUserId);
+                context.startActivity(i);
+        });
     }
     public void setUpPost(@NonNull HomeHolder holder, int position){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -125,6 +142,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
         }else {
             holder.menuPostBtn.setVisibility(View.GONE);
+            holder.userNameTv.setTextColor(Color.argb(255,138,43,226));
         }
         holder.menuPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override

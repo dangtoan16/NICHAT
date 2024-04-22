@@ -2,6 +2,8 @@ package com.example.socialmedia;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -25,7 +27,6 @@ public class MenuProfileActivity extends ActiveActivity {
             this.startActivity(intent);
         });
     }
-
     private void init(){
         moonTv= findViewById(R.id.darkTv);
         logoutTv= findViewById(R.id.logOutTv);

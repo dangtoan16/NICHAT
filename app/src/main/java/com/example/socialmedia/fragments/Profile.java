@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,18 +23,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.socialmedia.MainActivity;
 import com.example.socialmedia.MenuProfileActivity;
+import com.example.socialmedia.OtherProfileActivity;
 import com.example.socialmedia.R;
 import com.example.socialmedia.ReplaceActivity;
+import com.example.socialmedia.adapter.UserAdapter;
 import com.example.socialmedia.model.FollowModel;
 import com.example.socialmedia.model.PostImageModel;
 import com.example.socialmedia.model.Users;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.carousel.CarouselLayoutManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -58,12 +64,15 @@ public class Profile extends Fragment {
     private TextView nameTv, toolbarNameTv, statusTv, followingCountTv, followersCountTv, postCountTv;
     private CircleImageView profileImage;
     private RecyclerView recyclerView;
+
+    private LinearLayout postLiner, folowingLiner, folowerLiner;
     private FirebaseUser user;
     private ImageButton editProfileBtn, menuProfileBtn;
     int count;
     FirebaseFirestore db;
     ArrayList<Users> listFollowing;
     ArrayList<Users> listFollower;
+    UserAdapter userAdapter;
     FirestoreRecyclerAdapter<PostImageModel, PostImageHolder> adapter;
 
     public Profile() {
@@ -82,16 +91,46 @@ public class Profile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
-        loadData();
         loadBasicData();
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), 3));
         loadPostImages();
         recyclerView.setAdapter(adapter);
+        selectTab();
+        clickListenerWhenFollow();
         clickListener();
     }
-
-
+    private void clickListenerWhenFollow(){
+        userAdapter.OnUserClicked(new UserAdapter.OnUserClicked() {
+            @Override
+            public void onClicked(String uid) {
+                Intent intent= new Intent(getActivity(), OtherProfileActivity.class);
+                intent.putExtra("User need to find",uid);
+                startActivity(intent );
+            }
+        });
+    }
+    public void selectTab(){
+        postLiner.setOnClickListener(v -> {
+            recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), 3));
+            recyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        });
+        folowerLiner.setOnClickListener(v -> {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            userAdapter.setList(listFollower);
+            Log.d("ng noi tieng",String.valueOf(listFollower.size()));
+            recyclerView.setAdapter(userAdapter);
+            userAdapter.notifyDataSetChanged();
+        });
+        folowingLiner.setOnClickListener(v -> {
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            userAdapter.setList(listFollowing);
+            Log.d("ng noi tieng1",String.valueOf(listFollowing.size()));
+            recyclerView.setAdapter(userAdapter);
+            userAdapter.notifyDataSetChanged();
+        });
+    }
     public class WrapContentLinearLayoutManager extends GridLayoutManager {
 
         public WrapContentLinearLayoutManager(Context context, int spanCount) {
@@ -108,9 +147,6 @@ public class Profile extends Fragment {
         }
     }
 
-    private void loadData() {
-
-    }
 
     private void clickListener() {
 
@@ -141,7 +177,11 @@ public class Profile extends Fragment {
         user = FirebaseAuth.getInstance().getCurrentUser();
         listFollowing = new ArrayList<>();
         listFollower = new ArrayList<>();
+        userAdapter = new UserAdapter(listFollowing);
         menuProfileBtn= view.findViewById(R.id.menuBtn);
+        postLiner= view.findViewById(R.id.postLiner);
+        folowerLiner= view.findViewById(R.id.followerLiner);
+        folowingLiner= view.findViewById(R.id.followingLiner);
     }
 
     private void countFollow(Profile.onCountFollowCompleteListener listener) {
@@ -149,7 +189,7 @@ public class Profile extends Fragment {
         db.collection("Follows")
                 .whereEqualTo("user", currentUserRef)
                 .get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful()&& task.getResult().size()!=listFollowing.size()) {
                         listFollowing.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (!document.exists())
@@ -185,7 +225,7 @@ public class Profile extends Fragment {
         db.collection("Follows")
                 .whereEqualTo("target", currentUserRef)
                 .get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
+                    if (task.isSuccessful()&& task.getResult().size()!=listFollower.size()) {
                         listFollower.clear();
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (!document.exists())
@@ -214,7 +254,7 @@ public class Profile extends Fragment {
                 if (!document.exists())
                     return; // or handle the case when the document doesn't exist
                 Users user = document.toObject(Users.class);
-                Log.d("my_app_Other_add", user.toString());
+                Log.d("batloi", user.toString());
                 listFollower.add(user);
             }
         });
@@ -236,12 +276,9 @@ public class Profile extends Fragment {
             String name = value.getString("name");
             String status = value.getString("status");
             final String profileURL = value.getString("profileImageUrl");
-
-
             nameTv.setText(name);
             toolbarNameTv.setText(name);
             statusTv.setText(status);
-
             countFollowers(folowers -> followersCountTv.setText(String.valueOf(folowers)));
             countFollow(folowings -> followingCountTv.setText(String.valueOf(folowings)));
             if (getActivity()==null) return;
