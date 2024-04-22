@@ -164,7 +164,11 @@ public class OtherProfileActivity extends ActiveActivity {
                     QuerySnapshot querySnapshot = task.getResult();
                     for (DocumentSnapshot document : querySnapshot.getDocuments()) {
                         document.getReference().delete()
-                                .addOnSuccessListener(aVoid -> {Log.d("my_app_otherProfileSetUnfollow", "Follow document successfully deleted!"); updateFollowingStatus(null,false);})
+                                .addOnSuccessListener(aVoid ->
+                                {
+                                    Log.d("my_app_otherProfileSetUnfollow", "Follow document successfully deleted!");
+                                    updateFollowingStatus(null,false)
+                                ;})
                                 .addOnFailureListener(e -> Log.e("my_app_otherProfileSetUnfollow", "Error deleting LikePosts document", e));
                     }
 
@@ -376,11 +380,11 @@ public class OtherProfileActivity extends ActiveActivity {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (!document.exists())
-                    return; // or handle the case when the document doesn't exist
+                    return;
                 Users user = document.toObject(Users.class);
                 Log.d("my_app_Other_add",user.toString());
-                updateFollowingStatus(user,true);
-                listFollower.add( user );
+                listFollower.add(user);
+                updateFollowingStatus(listFollower,true);
             }
         });
     }
@@ -418,9 +422,9 @@ public class OtherProfileActivity extends ActiveActivity {
         });
     }
 
-    private void updateFollowingStatus(Users userInList,boolean update) {
-        isFollwed = update && user.getUid().equals( userInList.getUid());
-
+    private void updateFollowingStatus(List<Users> list,boolean update) {
+        isFollwed = update && list.stream().anyMatch(u ->
+            u.getUid().equals(user.getUid())) ;
         if (isFollwed) {
             followBtn.setText("UnFollow");
             startChatBtn.setVisibility(View.VISIBLE);

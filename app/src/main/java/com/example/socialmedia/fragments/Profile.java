@@ -188,21 +188,24 @@ public class Profile extends Fragment {
         DocumentReference currentUserRef = db.collection("Users").document(user.getUid());
         db.collection("Follows")
                 .whereEqualTo("user", currentUserRef)
-                .get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()&& task.getResult().size()!=listFollowing.size()) {
+                .addSnapshotListener((value, error) -> {
+                    if (error!=null) {
+                        Log.e("err", "" + error.getMessage());
+                        return;
+                    }
+                    if (value.isEmpty()){
+                        Log.e("value", "" + "ko co thong bao");
+                        return;
+                    }
                         listFollowing.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
+                        for (DocumentSnapshot document : value.getDocuments()) {
                             if (!document.exists())
-                                continue; // or handle the case when the document doesn't exist
+                                continue;
                             FollowModel following = document.toObject(FollowModel.class);
                             addTargetToFollowingList(following.getTarget());
                         }
-                    } else {
-                        // Handle errors
-                        Log.e("my_app_otherprofile_following", "Error getting documents: " + task.getException());
-                    }
                     if (listener != null) {
-                        listener.onCountFollowComplete(task.getResult().size());
+                        listener.onCountFollowComplete(value.getDocuments().size());
                     }
                 });
     }
@@ -224,22 +227,25 @@ public class Profile extends Fragment {
         DocumentReference currentUserRef = db.collection("Users").document(user.getUid());
         db.collection("Follows")
                 .whereEqualTo("target", currentUserRef)
-                .get().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()&& task.getResult().size()!=listFollower.size()) {
-                        listFollower.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (!document.exists())
-                                continue; // or handle the case when the document doesn't exist
-                            FollowModel following = document.toObject(FollowModel.class);
-                            addUserToFollowerList(following.getUser());
-                        }
-                    } else {
-                        // Handle errors
-                        Log.e("my_app_otherprofile_following", "Error getting documents: " + task.getException());
+                .addSnapshotListener((value, error) -> {
+                    if (error!=null) {
+                        Log.e("err", "" + error.getMessage());
+                        return;
+                    }
+                    if (value.isEmpty()){
+                        Log.e("value", "" + "ko co thong bao");
+                        return;
+                    }
+                    listFollower.clear();
+                    for (DocumentSnapshot document : value.getDocuments()) {
+                        if (!document.exists())
+                            continue;
+                        FollowModel following = document.toObject(FollowModel.class);
+                        addUserToFollowerList(following.getUser());
                     }
                     if (listener != null) {
 
-                        listener.onCountFollowComplete(task.getResult().size());
+                        listener.onCountFollowComplete(value.getDocuments().size());
 
                     }
                 });
@@ -247,7 +253,6 @@ public class Profile extends Fragment {
 
     private void addUserToFollowerList(DocumentReference userRef) {
         String userId = userRef.getId();
-
         db.collection("Users").document(userId).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
@@ -291,7 +296,6 @@ public class Profile extends Fragment {
 
         });
     }
-
 
     private void loadPostImages() {
         DocumentReference currentUserRef = FirebaseFirestore.getInstance().collection("Users").document(user.getUid());
