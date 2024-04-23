@@ -32,6 +32,7 @@
                 android:layout_weight="1"
                 android:id="@+id/nameTv"
                 android:text="Username"
+                android:textColor="@color/pupo"
                 android:textStyle="bold"/>
             <ImageButton
                 android:id="@+id/menuPostBtn"

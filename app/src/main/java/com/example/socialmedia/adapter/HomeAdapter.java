@@ -1,10 +1,12 @@
 package com.example.socialmedia.adapter;
 
+import static android.content.Intent.getIntent;
 import static androidx.core.content.ContextCompat.startActivity;
 import static androidx.core.content.res.TypedArrayUtils.getText;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -31,6 +33,10 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.socialmedia.OtherProfileActivity;
 import com.example.socialmedia.R;
 import com.example.socialmedia.ReplaceActivity;
+import com.example.socialmedia.fragments.Add;
+import com.example.socialmedia.fragments.Comment;
+import com.example.socialmedia.fragments.LoginFragment;
+import com.example.socialmedia.fragments.Profile;
 import com.example.socialmedia.model.CommentModel;
 import com.example.socialmedia.model.PostImageModel;
 import com.google.firebase.auth.FirebaseAuth;
@@ -142,7 +148,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
         }else {
             holder.menuPostBtn.setVisibility(View.GONE);
-            holder.userNameTv.setTextColor(Color.argb(255,138,43,226));
         }
         holder.menuPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override

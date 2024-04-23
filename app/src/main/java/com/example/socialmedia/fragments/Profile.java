@@ -32,6 +32,8 @@ import com.example.socialmedia.MenuProfileActivity;
 import com.example.socialmedia.OtherProfileActivity;
 import com.example.socialmedia.R;
 import com.example.socialmedia.ReplaceActivity;
+import com.example.socialmedia.UserArray;
+import com.example.socialmedia.adapter.HomeAdapter;
 import com.example.socialmedia.adapter.UserAdapter;
 import com.example.socialmedia.model.FollowModel;
 import com.example.socialmedia.model.PostImageModel;
@@ -59,7 +61,7 @@ import java.util.Map;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class Profile extends Fragment {
+public class Profile extends Fragment  {
 
     private TextView nameTv, toolbarNameTv, statusTv, followingCountTv, followersCountTv, postCountTv;
     private CircleImageView profileImage;
@@ -70,8 +72,8 @@ public class Profile extends Fragment {
     private ImageButton editProfileBtn, menuProfileBtn;
     int count;
     FirebaseFirestore db;
-    ArrayList<Users> listFollowing;
-    ArrayList<Users> listFollower;
+    UserArray listFollowing;
+    UserArray listFollower;
     UserAdapter userAdapter;
     FirestoreRecyclerAdapter<PostImageModel, PostImageHolder> adapter;
 
@@ -92,6 +94,7 @@ public class Profile extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         init(view);
         loadBasicData();
+        realtimeData();
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), 3));
         loadPostImages();
@@ -110,6 +113,10 @@ public class Profile extends Fragment {
             }
         });
     }
+    private void realtimeData(){
+        countFollowers(folowers -> followersCountTv.setText(String.valueOf(folowers)));
+        countFollow(folowings -> followingCountTv.setText(String.valueOf(folowings)));
+    }
     public void selectTab(){
         postLiner.setOnClickListener(v -> {
             recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getContext(), 3));
@@ -118,14 +125,14 @@ public class Profile extends Fragment {
         });
         folowerLiner.setOnClickListener(v -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            userAdapter.setList(listFollower);
+            userAdapter.setList(listFollower.getUserArray());
             Log.d("ng noi tieng",String.valueOf(listFollower.size()));
             recyclerView.setAdapter(userAdapter);
             userAdapter.notifyDataSetChanged();
         });
         folowingLiner.setOnClickListener(v -> {
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-            userAdapter.setList(listFollowing);
+            userAdapter.setList(listFollowing.getUserArray());
             Log.d("ng noi tieng1",String.valueOf(listFollowing.size()));
             recyclerView.setAdapter(userAdapter);
             userAdapter.notifyDataSetChanged();
@@ -175,9 +182,9 @@ public class Profile extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         editProfileBtn = view.findViewById(R.id.edit_profileImage);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        listFollowing = new ArrayList<>();
-        listFollower = new ArrayList<>();
-        userAdapter = new UserAdapter(listFollowing);
+        listFollowing = new UserArray();
+        listFollower = new UserArray();
+        userAdapter = new UserAdapter(listFollowing.getUserArray());
         menuProfileBtn= view.findViewById(R.id.menuBtn);
         postLiner= view.findViewById(R.id.postLiner);
         folowerLiner= view.findViewById(R.id.followerLiner);
@@ -284,8 +291,7 @@ public class Profile extends Fragment {
             nameTv.setText(name);
             toolbarNameTv.setText(name);
             statusTv.setText(status);
-            countFollowers(folowers -> followersCountTv.setText(String.valueOf(folowers)));
-            countFollow(folowings -> followingCountTv.setText(String.valueOf(folowings)));
+
             if (getActivity()==null) return;
             Glide.with(getActivity())
                     .load(profileURL)

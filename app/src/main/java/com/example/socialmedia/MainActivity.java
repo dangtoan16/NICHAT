@@ -158,21 +158,18 @@ public class MainActivity extends ActiveActivity implements Add.OnDataPass {
             Log.d("my_app_MainActivity_setTabIcon", "Tab 4 null");
             return;
         }
-        Glide.with(MainActivity.this)
+        Glide.with(getApplicationContext())
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_person)
                 .circleCrop()
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        // Use the loaded drawable here
-                        // For example, set it to an ImageView
                         profileTab.setIcon( resource);
                     }
 
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
-                        // Handle cleanup if needed
                     }
                 });
     }

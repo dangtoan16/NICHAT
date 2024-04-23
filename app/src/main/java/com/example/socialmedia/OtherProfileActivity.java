@@ -71,8 +71,8 @@ public class OtherProfileActivity extends ActiveActivity {
     int count;
     FirestoreRecyclerAdapter<PostImageModel, Profile.PostImageHolder> adapter;
     FirebaseFirestore db;
-    ArrayList<Users> listFollowing;
-    ArrayList<Users> listFollower;
+    UserArray listFollowing;
+    UserArray listFollower;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +81,7 @@ public class OtherProfileActivity extends ActiveActivity {
         setContentView(R.layout.activity_other_profile);
         init();
         loadBasicData();
+        realtimeData();
         listenToDataBase();
         recyclerView.setHasFixedSize(false);
         recyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this, 3));
@@ -299,8 +300,8 @@ public class OtherProfileActivity extends ActiveActivity {
         startChatBtn = findViewById(R.id.startChatBtn);
         backBtn = findViewById(R.id.backBtn);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        listFollowing = new ArrayList<>();
-        listFollower = new ArrayList<>();
+        listFollowing = new UserArray();
+        listFollower = new UserArray();
         Intent intent = getIntent();
         String currentViewUserId = intent.getStringExtra("User need to find");
         db = FirebaseFirestore.getInstance();
@@ -388,7 +389,10 @@ public class OtherProfileActivity extends ActiveActivity {
             }
         });
     }
-
+    private void realtimeData(){
+        countFollowers(folowers -> followersCountTv.setText(String.valueOf(folowers)));
+        countFollow(folowings -> followingCountTv.setText(String.valueOf(folowings)));
+    }
     private void loadBasicData() {
         userBeingViewedRef.addSnapshotListener((value, error) -> {
             if (error != null) {
@@ -406,8 +410,6 @@ public class OtherProfileActivity extends ActiveActivity {
             toolbarNameTv.setText(name);
             statusTv.setText(status);
 
-            countFollowers(folowers -> followersCountTv.setText(String.valueOf(folowers)));
-            countFollow(folowings -> followingCountTv.setText(String.valueOf(folowings)));
             try {
                 Glide.with(getApplicationContext())
                         .load(profileURL)
@@ -422,9 +424,8 @@ public class OtherProfileActivity extends ActiveActivity {
         });
     }
 
-    private void updateFollowingStatus(List<Users> list,boolean update) {
-        isFollwed = update && list.stream().anyMatch(u ->
-            u.getUid().equals(user.getUid())) ;
+    private void updateFollowingStatus(UserArray list,boolean update) {
+        isFollwed = update && list.contains(user);
         if (isFollwed) {
             followBtn.setText("UnFollow");
             startChatBtn.setVisibility(View.VISIBLE);
