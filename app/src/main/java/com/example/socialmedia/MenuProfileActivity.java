@@ -13,8 +13,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
 public class MenuProfileActivity extends ActiveActivity {
-    TextView moonTv, logoutTv;
+    TextView logoutTv;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +34,12 @@ public class MenuProfileActivity extends ActiveActivity {
             intent.putExtra("isComment", false);
             this.startActivity(intent);
         });
+
     }
+
+
+
     private void init(){
-        moonTv= findViewById(R.id.darkTv);
         logoutTv= findViewById(R.id.logOutTv);
     }
 }

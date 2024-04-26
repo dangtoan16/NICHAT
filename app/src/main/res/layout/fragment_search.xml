@@ -13,7 +13,7 @@
         app:queryHint="Search here: "/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/recyclerView"
         android:layout_below="@+id/searchView"
         android:layout_marginTop="20dp"/>

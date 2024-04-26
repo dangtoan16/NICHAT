@@ -1,10 +1,10 @@
 package com.example.socialmedia;
 
-import static java.security.AccessController.getContext;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,20 +28,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import tech.gusavila92.websocketclient.WebSocketClient;
+
 public class MainActivity extends ActiveActivity implements Add.OnDataPass {
 
-
+    private WebSocketClient webSocketClient;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     ViewPagerAdapter pagerAdapter;
-    public static boolean IS_SEARCHED_USER= false;
-    public static String USER_ID;
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+ //       createWebSocketClient();
         init();
         addTabs();
         setProfileIcon();
@@ -190,7 +194,6 @@ public class MainActivity extends ActiveActivity implements Add.OnDataPass {
     public void onBackPressed(){
         if (viewPager.getCurrentItem()==4){
             viewPager.setCurrentItem(0);
-            IS_SEARCHED_USER= false;
         }else
             super.onBackPressed();
     }
