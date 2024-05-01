@@ -9,6 +9,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -67,6 +68,8 @@ public class Add extends Fragment {
     Uri imageUri;
     FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
     OnDataPass onDataPass;
+    int androidVersion = Build.VERSION.SDK_INT;
+
 
     public Add() {
         // Required empty public constructor
@@ -171,32 +174,63 @@ public class Add extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().runOnUiThread(() -> Dexter.withContext(getContext())
-                .withPermissions(READ_MEDIA_IMAGES)
-                .withListener(new MultiplePermissionsListener() {
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                        if (report.areAllPermissionsGranted()) {
-                            File file = new File(Environment.getExternalStorageDirectory().toString() + "/Download");
-                            if (file.exists()) {
-                                File[] files = file.listFiles();
-                                assert files != null;
-                                for (File file1 : files) {
-                                    if (file1.getAbsolutePath().endsWith(".jpg") || file1.getAbsolutePath().endsWith(".png")) {
-                                        list.add(new GalleryImages(Uri.fromFile(file1)));
-                                        Log.d("chonanh",String.valueOf(list.size()));
-                                        adapter.notifyDataSetChanged();
+        if (androidVersion >= Build.VERSION_CODES.TIRAMISU) {
+            getActivity().runOnUiThread(() -> Dexter.withContext(getContext())
+                    .withPermissions(READ_MEDIA_IMAGES)
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            if (report.areAllPermissionsGranted()) {
+                                File file = new File(Environment.getExternalStorageDirectory().toString() + "/Download");
+                                if (file.exists()) {
+                                    File[] files = file.listFiles();
+                                    assert files != null;
+                                    for (File file1 : files) {
+                                        if (file1.getAbsolutePath().endsWith(".jpg") || file1.getAbsolutePath().endsWith(".png")) {
+                                            list.add(new GalleryImages(Uri.fromFile(file1)));
+                                            Log.d("chonanh",String.valueOf(list.size()));
+                                            adapter.notifyDataSetChanged();
+                                        }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
 
-                    }
-                }).check());
+                        }
+                    }).check());
+        }
+        else {
+            getActivity().runOnUiThread(() -> Dexter.withContext(getContext())
+                    .withPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            if (report.areAllPermissionsGranted()) {
+                                File file = new File(Environment.getExternalStorageDirectory().toString() + "/Download");
+                                if (file.exists()) {
+                                    File[] files = file.listFiles();
+                                    assert files != null;
+                                    for (File file1 : files) {
+                                        if (file1.getAbsolutePath().endsWith(".jpg") || file1.getAbsolutePath().endsWith(".png")) {
+                                            list.add(new GalleryImages(Uri.fromFile(file1)));
+                                            Log.d("chonanh",String.valueOf(list.size()));
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> list, PermissionToken permissionToken) {
+
+                        }
+                    }).check());
+        }
     }
 
     @Override
