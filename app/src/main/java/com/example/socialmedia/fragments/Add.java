@@ -1,14 +1,17 @@
 package com.example.socialmedia.fragments;
 
 
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,8 +172,7 @@ public class Add extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().runOnUiThread(() -> Dexter.withContext(getContext())
-                .withPermissions(android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                .withPermissions(READ_MEDIA_IMAGES)
                 .withListener(new MultiplePermissionsListener() {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
@@ -182,6 +184,7 @@ public class Add extends Fragment {
                                 for (File file1 : files) {
                                     if (file1.getAbsolutePath().endsWith(".jpg") || file1.getAbsolutePath().endsWith(".png")) {
                                         list.add(new GalleryImages(Uri.fromFile(file1)));
+                                        Log.d("chonanh",String.valueOf(list.size()));
                                         adapter.notifyDataSetChanged();
                                     }
                                 }

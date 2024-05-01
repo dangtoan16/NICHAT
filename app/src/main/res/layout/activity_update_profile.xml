@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F1EAED"
+    tools:context=".fragments.CreateAccountFragment">
+
+    <ImageButton
+        android:id="@+id/backBtn"
+        android:src="@drawable/ic_back"
+        android:padding="10dp"
+        android:elevation="3dp"
+        android:layout_margin="20dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:background="@drawable/ic_circle"
+        android:layout_width="34dp"
+        android:layout_height="34dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:text="Update \nAccount"
+        android:textColor="@color/pupo"
+        android:layout_marginTop="70dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="16dp"/>
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="150dp">
+        <EditText
+            android:id="@+id/nameET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_margin="15dp"
+            android:textSize="17sp"
+            android:background="@drawable/my_edit_text"
+            android:hint="Name" />
+        <EditText
+            android:id="@+id/statusET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_margin="15dp"
+            android:textSize="17sp"
+            android:background="@drawable/my_edit_text"
+            android:hint="status"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_margin="15dp"
+            android:textSize="17sp"
+            android:background="@drawable/my_edit_text"
+            app:passwordToggleEnabled="true"
+            android:hint="New Password">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/PassET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="15"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:layout_margin="15dp"
+            android:textSize="17sp"
+            app:passwordToggleEnabled="true"
+            android:background="@drawable/my_edit_text"
+            android:hint="Confirm Password">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/confirmPassET"
+                android:inputType="textPassword"
+                android:ems="15"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </LinearLayout>
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ll1"
+        android:visibility="gone" />
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_below="@+id/ll1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="170dp"
+            android:layout_height="50dp"
+            android:text="Update"
+            android:textSize="25sp"
+            android:textAllCaps="false"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/nichat_button"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:id="@+id/updateBtn"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

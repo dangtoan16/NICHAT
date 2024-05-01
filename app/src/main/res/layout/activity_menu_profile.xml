@@ -18,10 +18,11 @@
         android:textSize="30sp"
         android:background="@drawable/nichat_button"
         android:text="MENU"/>
+
         <LinearLayout
             android:id="@+id/line1"
+            android:layout_width="match_parent"
             android:layout_below="@+id/menuTV"
-            android:layout_width="match_parent"
             android:layout_margin="20dp"
             android:orientation="horizontal"
             android:layout_height="wrap_content">
@@ -32,26 +33,26 @@
                 android:textSize="30sp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="7dp"
-                android:drawableLeft="@drawable/ic_logout"
-                android:text=" Log out"
-                android:id="@+id/logOutTv"/>
+                android:drawableLeft="@drawable/ic_edit"
+                android:text=" Update profile"
+                android:id="@+id/profileTv"/>
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/line2"
-            android:layout_below="@+id/line1"
-            android:layout_width="match_parent"
-            android:layout_margin="20dp"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="30sp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="7dp"
-                android:drawableLeft="@drawable/ic_user"
-                android:text="User Manager"
-                android:id="@+id/userTv"/>
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/line2"
+        android:layout_below="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="7dp"
+            android:drawableLeft="@drawable/ic_logout"
+            android:text=" Log out"
+            android:id="@+id/logOutTv"/>
+    </LinearLayout>
 </RelativeLayout>

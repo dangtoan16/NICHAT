@@ -21,7 +21,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class MenuProfileActivity extends ActiveActivity {
-    TextView logoutTv;
+    TextView logoutTv, updatePr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +34,17 @@ public class MenuProfileActivity extends ActiveActivity {
             intent.putExtra("isComment", false);
             this.startActivity(intent);
         });
+        updatePr.setOnClickListener(v -> {
+            Intent intent = new Intent(this, UpdateProfileActivity.class);
 
+            this.startActivity(intent);
+        });
     }
 
 
 
     private void init(){
         logoutTv= findViewById(R.id.logOutTv);
+        updatePr= findViewById(R.id.profileTv);
     }
 }

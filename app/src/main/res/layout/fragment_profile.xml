@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/followingLiner"
-                android:background="@drawable/nichat_button"
+                android:background="@drawable/mybutton"
                 android:orientation="vertical">
 
                 <TextView
@@ -161,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/followerLiner"
-                android:background="@drawable/nichat_button"
+                android:background="@drawable/mybutton"
                 android:orientation="vertical">
 
                 <TextView
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:id="@+id/postLiner"
-                android:background="@drawable/nichat_button"
+                android:background="@drawable/mybutton"
                 android:orientation="vertical">
 
                 <TextView

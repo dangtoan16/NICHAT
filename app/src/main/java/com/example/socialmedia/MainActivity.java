@@ -29,13 +29,9 @@ import java.util.Map;
 import java.util.Objects;
 
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import tech.gusavila92.websocketclient.WebSocketClient;
 
 public class MainActivity extends ActiveActivity implements Add.OnDataPass {
 
-    private WebSocketClient webSocketClient;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     ViewPagerAdapter pagerAdapter;
@@ -45,7 +41,6 @@ public class MainActivity extends ActiveActivity implements Add.OnDataPass {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
- //       createWebSocketClient();
         init();
         addTabs();
         setProfileIcon();
