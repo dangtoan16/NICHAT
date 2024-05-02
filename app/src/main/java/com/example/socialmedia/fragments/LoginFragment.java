@@ -114,7 +114,7 @@ public class LoginFragment extends Fragment {
                         if (task.isSuccessful()) {
                             FirebaseUser user = auth.getCurrentUser();
                             if (!user.isEmailVerified()) {
-                                Toast.makeText(getContext(), "Please verify your email", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Welcome to NICHAT", Toast.LENGTH_SHORT).show();
                             }
                             sendUserToMainActivity();
                         } else {

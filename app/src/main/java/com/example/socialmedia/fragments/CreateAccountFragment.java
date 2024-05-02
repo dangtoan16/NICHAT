@@ -123,7 +123,7 @@ public class CreateAccountFragment extends Fragment {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
                                                     if(task.isSuccessful()){
-                                                        Toast.makeText(getContext(),"Email verification link send,",Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(getContext(),"Welcome to NICHAT",Toast.LENGTH_SHORT).show();
                                                     }
                                                 }
                                             });
