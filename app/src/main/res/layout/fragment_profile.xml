@@ -27,8 +27,8 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="NICHAT"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textColor="@color/pupo"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <ImageButton

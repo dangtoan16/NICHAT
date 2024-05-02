@@ -407,7 +407,6 @@ public class OtherProfileActivity extends ActiveActivity {
 
 
             nameTv.setText(name);
-            toolbarNameTv.setText(name);
             statusTv.setText(status);
 
             try {

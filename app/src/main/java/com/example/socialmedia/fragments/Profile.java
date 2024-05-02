@@ -290,7 +290,6 @@ public class Profile extends Fragment  {
             String status = value.getString("status");
             final String profileURL = value.getString("profileImageUrl");
             nameTv.setText(name);
-            toolbarNameTv.setText(name);
             statusTv.setText(status);
 
             if (getActivity()==null) return;

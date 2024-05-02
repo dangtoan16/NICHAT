@@ -19,25 +19,30 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageButton
                 android:id="@+id/backBtn"
-                android:src="@drawable/ic_back"
-                android:padding="4dp"
-                android:elevation="3dp"
-                android:layout_margin="4dp"
-                android:foreground="?attr/selectableItemBackground"
-                android:background="@drawable/ic_circle"
                 android:layout_width="34dp"
-                android:layout_height="34dp" />
+                android:layout_height="34dp"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/ic_circle"
+                android:elevation="3dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:padding="4dp"
+                android:src="@drawable/ic_back" />
+
             <TextView
                 android:id="@+id/toolbarNameTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_marginBottom="1dp"
                 android:text="NICHAT"
-                android:textColor="@android:color/black"
-                android:textSize="18sp"
+                android:textColor="@color/pupo"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
 
@@ -224,7 +229,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="4dp"
-                android:background="@drawable/btn_bg"
+                android:background="@drawable/nichat_button"
                 android:minWidth="160dp"
                 android:text="Say Hi !"
                 android:textColor="@android:color/white"
@@ -235,7 +240,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:background="@drawable/btn_bg"
+                android:background="@drawable/nichat_button"
                 android:minWidth="160dp"
                 android:text="Follow"
                 android:textColor="@android:color/white"
