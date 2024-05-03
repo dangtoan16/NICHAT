@@ -42,7 +42,7 @@
             android:background="@drawable/my_edit_text"
             android:hint="Email"
             android:textSize="17sp"
-            android:text="toan@gmail.com" />
+            android:text="" />
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:id="@+id/passwordET"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="123456"
+                android:text=""
                 android:inputType="textPassword"
                 android:ems="15"/>
         </com.google.android.material.textfield.TextInputLayout>

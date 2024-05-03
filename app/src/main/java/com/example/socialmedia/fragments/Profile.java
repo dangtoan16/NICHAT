@@ -305,7 +305,9 @@ public class Profile extends Fragment  {
 
     private void loadPostImages() {
         DocumentReference currentUserRef = FirebaseFirestore.getInstance().collection("Users").document(user.getUid());
-        Query query = FirebaseFirestore.getInstance().collection("Posts").whereEqualTo("userOwnerOfPost", currentUserRef);
+        Query query = FirebaseFirestore.getInstance().collection("Posts")
+                .whereEqualTo("deleted",false)
+                .whereEqualTo("userOwnerOfPost", currentUserRef);
         FirestoreRecyclerOptions<PostImageModel> options = new FirestoreRecyclerOptions.Builder<PostImageModel>()
                 .setQuery(query, PostImageModel.class)
                 .build();
