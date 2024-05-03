@@ -4,6 +4,7 @@ import static com.example.socialmedia.fragments.CreateAccountFragment.EMAIL_REGE
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,7 @@ public class LoginFragment extends Fragment {
         emailEt = view.findViewById(R.id.emailET);
         passwordEt = view.findViewById(R.id.passwordET);
         loginBtn = view.findViewById(R.id.loginBtn);
-        googleSignInBtn = view.findViewById(R.id.googleSignInBtn);
+//        googleSignInBtn = view.findViewById(R.id.googleSignInBtn);
         signUpTv = view.findViewById(R.id.signUpTV);
         forgotPasswordTv = view.findViewById(R.id.forgotTV);
         progressBar = view.findViewById(R.id.progressBar);
@@ -125,9 +126,9 @@ public class LoginFragment extends Fragment {
                     });
 
         });
-        googleSignInBtn.setOnClickListener(v -> {
-            signIn();
-        });
+//        googleSignInBtn.setOnClickListener(v -> {
+//            signIn();
+//        });
         signUpTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,23 +152,23 @@ public class LoginFragment extends Fragment {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            if (!task.isSuccessful()) {
-                Toast.makeText(getContext(), "google signin thất bại ", Toast.LENGTH_LONG).show();
-
-                    throw new RuntimeException("loi nhieu lam");
-
-            }
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account == null) {
-                    Toast.makeText(getContext(), "account == null", Toast.LENGTH_LONG).show();
-                    throw new RuntimeException("loi nhieu lam 2");
-                }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == RC_SIGN_IN && data.getData()!=null) {
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            if (!task.isSuccessful()) {
+//                Toast.makeText(getContext(), "google signin thất bại ", Toast.LENGTH_LONG).show();
+//
+//                    throw new RuntimeException("loi nhieu lam");
+//
+//            }
+//            try {
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                if (account == null) {
+//                    Toast.makeText(getContext(), "account == null", Toast.LENGTH_LONG).show();
+//                    throw new RuntimeException("loi nhieu lam 2");
+//                }
 //                String idToken = account.getIdToken();
 //                if( idToken != null) {
 //                    auth.signInWithCustomToken(idToken);
@@ -177,15 +178,59 @@ public class LoginFragment extends Fragment {
 //                else {
 //                    Toast.makeText(getContext(),"id token == null neeeee ",Toast.LENGTH_LONG).show();
 //                }
-                // When sign in account is not equal to null initialize auth credential
+//                // When sign in account is not equal to null initialize auth credential
+//                AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+//                // Check credential
+//                auth.signInWithCredential(authCredential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> ctask) {
+//                        // Check condition
+//                        if (ctask.isSuccessful()) {
+//                            // When task is successful redirect to profile activity display Toast
+//                            sendUserToMainActivity();
+//                        }
+//                    }
+//                });
+//
+//            } catch (ApiException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN && data.getData() != null) {
+            // Check if the request code matches the one used for Google Sign-In
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            if (!task.isSuccessful()) {
+                Toast.makeText(getContext(), "Google sign-in failed", Toast.LENGTH_LONG).show();
+                throw new RuntimeException("Multiple errors occurred during Google sign-in");
+            }
+            try {
+                // Retrieve the GoogleSignInAccount from the task
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account == null) {
+                    Toast.makeText(getContext(), "Account is null", Toast.LENGTH_LONG).show();
+                    throw new RuntimeException("Account is null after Google sign-in");
+                }
+                // Get ID token for Firebase authentication
+                String idToken = account.getIdToken();
+                if (idToken != null) {
+                    // Sign in with custom token and Firebase authentication
+                    auth.signInWithCustomToken(idToken);
+                    firebaseAuthWithGoogle(idToken);
+                    sendUserToMainActivity();
+                } else {
+                    Toast.makeText(getContext(), "ID token is null", Toast.LENGTH_LONG).show();
+                }
+                // Create authentication credential for Firebase
                 AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                // Check credential
+                // Sign in with Firebase authentication credential
                 auth.signInWithCredential(authCredential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> ctask) {
-                        // Check condition
                         if (ctask.isSuccessful()) {
-                            // When task is successful redirect to profile activity display Toast
                             sendUserToMainActivity();
                         }
                     }
@@ -198,7 +243,7 @@ public class LoginFragment extends Fragment {
     }
 
 
-/*    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(String idToken) {
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         auth.signInWithCredential(credential)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
@@ -212,20 +257,17 @@ public class LoginFragment extends Fragment {
                         }
                     }
                 });
-    }*/
+    }
 
     private void updateUi(FirebaseUser user) {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(getActivity());
         Map<String, Object> map = new HashMap<>();
-        List<String> list = new ArrayList<>();
-        List<String> list1= new ArrayList<>();
         map.put("name", account.getDisplayName());
         map.put("email", account.getEmail());
         map.put("profileImage", String.valueOf(account.getPhotoUrl()));
         map.put("uid", user.getUid());
-        map.put("following", list1);
-        map.put("followers", list);
         map.put("status", " ");
+        map.put("online", false);
         map.put("isAdmin",false);
 
         FirebaseFirestore.getInstance().collection("Users").document(user.getUid())
