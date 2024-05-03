@@ -1,8 +1,8 @@
-#Nichat - Social Media App
+# Nichat - Social Media App
 
 Nichat is a social media app designed to connect users with their friends seamlessly. With a focus on simplicity and user experience, Nichat allows users to share moments, interact with friends, and stay updated in real-time.
 
-##Features
+## Features
 
 - **Effortless Connectivity:** Discover and connect with friends effortlessly using our streamlined search feature.
 - **Streamlined Sharing:** Share photos with captions or short videos to captivate your audience effortlessly.
@@ -10,11 +10,11 @@ Nichat is a social media app designed to connect users with their friends seamle
 - **Dynamic Following:** Stay in the loop with friends' updates. Follow and unfollow friends at your convenience to reflect your interests.
 - **Real-Time Interaction:** Receive instant notifications for likes, comments, and new followers.
 
-##Supported Android Versions
+## Supported Android Versions
 
 Nichat supports Android versions 7 (Nougat) through 14, ensuring accessibility across a wide range of devices.
 
-##Dependencies
+## Dependencies
 
 Nichat relies on the following dependencies for its functionality:
 
@@ -32,7 +32,7 @@ Nichat relies on the following dependencies for its functionality:
 - RoundedImageView: https://github.com/vinc3m1/RoundedImageView
 - Android Websocket Client: https://github.com/gusavila92/java-android-websocket-client
 
-##Installation
+## Installation
 
 1. Clone the repository.
 2. Open the project in Android Studio.
