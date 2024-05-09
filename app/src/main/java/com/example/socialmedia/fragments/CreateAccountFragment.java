@@ -1,5 +1,7 @@
 package com.example.socialmedia.fragments;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +29,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -154,13 +159,40 @@ public class CreateAccountFragment extends Fragment {
                         if(task.isSuccessful()){
                             assert getActivity() != null;
                             progressBar.setVisibility(View.GONE);
+                            followToan(user);
                             startActivity(new Intent(getActivity().getApplicationContext(), MainActivity.class));
                             getActivity().finish();
+
                         }else {
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(getContext(),"Error "+task.getException().getMessage()
                                     ,Toast.LENGTH_SHORT).show();
+
                         }
                 });
+
     }
+    private void followToan(FirebaseUser user) {
+
+        DocumentReference userCurrent = FirebaseFirestore.getInstance()
+                .collection("Users").document(user.getUid());
+
+        DocumentReference targetUser = FirebaseFirestore.getInstance()
+                .collection("Users").document("1NwDXHmcSiZfW1PMKwjtNZ10ruw2");
+
+        Map<String, Object> followData = new HashMap<>();
+        followData.put("user", userCurrent);
+        followData.put("target", targetUser);
+
+        FirebaseFirestore.getInstance().collection("Follows").add(followData)
+                .addOnSuccessListener(documentReference -> {
+
+                    Log.d(TAG, "Follow added with ID: " + documentReference.getId());
+                })
+                .addOnFailureListener(e -> {
+
+                    Log.w(TAG, "Error adding follow", e);
+                });
+    }
+
 }

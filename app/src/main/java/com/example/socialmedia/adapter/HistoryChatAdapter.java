@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.socialmedia.R;
 import com.example.socialmedia.model.HistoryChatModel;
+import com.example.socialmedia.model.NameIdModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,12 +33,12 @@ public class HistoryChatAdapter extends RecyclerView.Adapter<HistoryChatAdapter.
     public OnStartChat startChat;
     Activity context;
     List<HistoryChatModel> list;
+    public List<NameIdModel> listNameId= new ArrayList<>();
 
     public HistoryChatAdapter(Activity context, List<HistoryChatModel> list) {
         this.context = context;
         this.list = list;
     }
-
     @NonNull
     @Override
     public ChatUserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,8 +51,7 @@ public class HistoryChatAdapter extends RecyclerView.Adapter<HistoryChatAdapter.
     @Override
     public void onBindViewHolder(@NonNull ChatUserHolder holder, int position) {
 
-        fetchImageUrl(list.get(position).getUid(), holder);
-
+        fetchImageUrl(list.get(position).getUid(), holder, list.get(position).getTime());
 
         holder.time.setText(calculateTime(list.get(position).getTime()));
 
@@ -68,7 +69,7 @@ public class HistoryChatAdapter extends RecyclerView.Adapter<HistoryChatAdapter.
     }
 
 
-    void fetchImageUrl(List<String> uids, ChatUserHolder holder) {
+    void fetchImageUrl(List<String> uids, ChatUserHolder holder, Date time) {
 
         String oppositeUID;
 
@@ -89,8 +90,10 @@ public class HistoryChatAdapter extends RecyclerView.Adapter<HistoryChatAdapter.
                         DocumentSnapshot snapshot = task.getResult();
 
                         Glide.with(context.getApplicationContext()).load(snapshot.getString("profileImageUrl")).into(holder.imageView);
-                        holder.name.setText(snapshot.getString("name"));
-
+                        String nameSearch= snapshot.getString("name");
+                        holder.name.setText(nameSearch);
+                        if (listNameId.stream().noneMatch(nameIdModel -> nameIdModel.id.equals(oppositeUID)))
+                            listNameId.add(new NameIdModel(nameSearch,oppositeUID));
                     } else {
                         assert task.getException() != null;
                         Toast.makeText(context, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -109,6 +112,10 @@ public class HistoryChatAdapter extends RecyclerView.Adapter<HistoryChatAdapter.
 
     public void OnStartChat(OnStartChat startChat) {
         this.startChat = startChat;
+    }
+
+    public void setList(List<HistoryChatModel> filteredList) {
+        list=filteredList;
     }
 
     public interface OnStartChat {

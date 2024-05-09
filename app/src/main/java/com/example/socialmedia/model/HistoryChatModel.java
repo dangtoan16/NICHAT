@@ -55,4 +55,13 @@ public class HistoryChatModel {
     public void setTime(Date time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "HistoryChatModel{" +
+
+                ", uid=" + uid +
+                ", time=" + time +
+                '}';
+    }
 }
